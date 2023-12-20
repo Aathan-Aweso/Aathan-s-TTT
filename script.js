@@ -28,7 +28,7 @@ let playerOScore = 0;
 // Disable All Buttons
 const disableButtons = () => {
   btnRef.forEach((element) => (element.disabled = true));
-  // enable popup
+
   popupRef.classList.remove("hide");
 };
 
@@ -38,7 +38,7 @@ const enableButtons = () => {
     element.innerText = "";
     element.disabled = false;
   });
-  // disable popup
+
   popupRef.classList.add("hide");
 };
 
@@ -83,8 +83,8 @@ const winChecker = () => {
       btnRef[i[1]].innerText,
       btnRef[i[2]].innerText,
     ];
-    // Check if elements are filled
-    // If 3 empty elements are the same and would give win as would
+
+
     if (element1 != "" && element2 != "" && element3 != "") {
       if (element1 == element2 && element2 == element3) {
         // If all 3 buttons have the same values then pass the value to winFunction
@@ -99,12 +99,12 @@ btnRef.forEach((element) => {
   element.addEventListener("click", () => {
     if (xTurn) {
       xTurn = false;
-      // Display X
+
       element.innerText = "X";
       element.disabled = true;
     } else {
       xTurn = true;
-      // Display O
+
       element.innerText = "O";
       element.disabled = true;
     }
@@ -141,5 +141,5 @@ function updateScoreDisplay() {
   playerOScoreDisplay.innerText = playerOScore;
 }
 
-// Enable Buttons and disable popup on page load
+
 window.onload = enableButtons;
