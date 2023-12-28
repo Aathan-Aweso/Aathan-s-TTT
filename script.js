@@ -5,6 +5,10 @@ let restartBtn = document.getElementById("restart");
 let msgRef = document.getElementById("message");
 let playerXScoreDisplay = document.getElementById("playerXScore");
 let playerOScoreDisplay = document.getElementById("playerOScore");
+let player1NameInput = document.getElementById("player1Name");
+let player2NameInput = document.getElementById("player2Name");
+let drawScoreDisplay = document.getElementById("drawScoreDisplay");
+
 
 // Winning Pattern 
 let winningPattern = [
@@ -23,6 +27,10 @@ let xTurn = true;
 let count = 0;
 let playerXScore = 0;
 let playerOScore = 0;
+let player1Name = "";
+let player2Name = "";
+let draws = 0;
+
 
 
 // Disable All Buttons
@@ -32,7 +40,7 @@ const disableButtons = () => {
   popupRef.classList.remove("hide");
 };
 
-// Enable all buttons (For New Game and Restart)
+// Enable all buttons 
 const enableButtons = () => {
   btnRef.forEach((element) => {
     element.innerText = "";
@@ -42,36 +50,63 @@ const enableButtons = () => {
   popupRef.classList.add("hide");
 };
 
-// This function is executed when a player wins
+//executed when a player wins
 const winFunction = (letter) => {
   disableButtons();
   if (letter == "X") {
-    msgRef.innerHTML = "&#x1F389; <br> 'X' Wins";
+    msgRef.innerHTML = `&#x1F389; <br> ${player1Name} Wins`;
     playerXScore++;
-  } else {
-    msgRef.innerHTML = "&#x1F389; <br> 'O' Wins";
+  } else if (letter == "O") {
+    msgRef.innerHTML = `&#x1F389; <br> ${player2Name} Wins`;
     playerOScore++;
-  }
+} else {
+    msgRef.innerHTML = "It's a Draw";
+    draws++;
+}
 
   updateScoreDisplay();
 };
+
 
 // Function for draw
 const drawFunction = () => {
   disableButtons();
   msgRef.innerHTML = " <br> It's a Draw";
+  draws++;
+  updateScoreDisplay();
+
 };
+
+const saveNamesBtn = document.getElementById("save-names");
+
+if (saveNamesBtn) {
+  saveNamesBtn.addEventListener("click", () => {
+    // Save the entered names
+    player1Name = player1NameInput.value || "Player 1";
+    player2Name = player2NameInput.value || "Player 2";
+
+    // Display player names
+    displayPlayerNames();
+  });
+}
 
 // New Game
 newgameBtn.addEventListener("click", () => {
   count = 0;
   enableButtons();
+  player1Name = player1NameInput.value || "Player 1";
+  player2Name = player2NameInput.value || "Player 2";
+  displayPlayerNames();
 });
 
 // Restart
 restartBtn.addEventListener("click", () => {
   count = 0;
   enableButtons();
+  player1Name = player1NameInput.value || "Player 1";
+  player2Name = player2NameInput.value || "Player 2";
+  displayPlayerNames();
+
 });
 
 // Win Logic
@@ -115,12 +150,18 @@ btnRef.forEach((element) => {
     // Check for win on every click
     winChecker();
 
-    // Update message container after every even turn
     if (count % 2 === 0) {
-      updateMessage("This is X's turn.");
+      updateMessage(`This is ${player1Name}'s turn.`);
     } else {
-      updateMessage("This is O's turn.");
+      updateMessage(`This is ${player2Name}'s turn.`);
     }
+
+
+    // if (count % 2 === 0) {
+    //   updateMessage("This is X's turn.");
+    // } else {
+    //   updateMessage("This is O's turn.");
+    // }
 
     // Check for draw
     if (count == 9) {
@@ -136,10 +177,27 @@ function updateMessage(message) {
   }
 }
 
+
 function updateScoreDisplay() {
   playerXScoreDisplay.innerText = playerXScore;
   playerOScoreDisplay.innerText = playerOScore;
+  drawScoreDisplay.innerText = draws; 
+  
 }
 
 
 window.onload = enableButtons;
+
+
+function displayPlayerNames() {
+  const player1NameDisplay = document.getElementById("displayPlayer1Name");
+  const player2NameDisplay = document.getElementById("displayPlayer2Name");
+
+  if (player1NameDisplay) {
+    player1NameDisplay.innerText = player1Name;
+  }
+
+  if (player2NameDisplay) {
+    player2NameDisplay.innerText = player2Name;
+  }
+}
